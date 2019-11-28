@@ -9,14 +9,14 @@ import java.util.Queue;
  * @author jinru.lu
  *
  */
-public class BinarySearchTree<E> extends BinaryTree<E> {
+public class BSTree<E> extends BinaryTree<E> {
 	private Comparator<E> comparator;
 	
-	public BinarySearchTree() {
+	public BSTree() {
 		this(null);
 	}
 	
-	public BinarySearchTree(Comparator<E> comparator) {
+	public BSTree(Comparator<E> comparator) {
 		this.comparator = comparator;
 	}
 	
@@ -25,8 +25,10 @@ public class BinarySearchTree<E> extends BinaryTree<E> {
 		
 		//添加根节点
 		if (root == null) {
-			root = new Node<E>(element, null);
+			root = createNode(element, null);
 			size++;
+			
+			afterAdd(root);
 			return;
 		}
 		
@@ -49,13 +51,31 @@ public class BinarySearchTree<E> extends BinaryTree<E> {
 		}
 		
 		//看看插入到父节点的哪个位置
-		Node<E> newNode = new Node<E>(element, parent);
+		Node<E> newNode = createNode(element, parent);
 		if (cmp > 0) {
 			parent.right = newNode;
 		} else if (cmp < 0) {
 			parent.left = newNode;
 		}
 		size++;
+		
+		afterAdd(newNode);
+	}
+	
+	/**
+	 * 添加新节点node之后的调整
+	 * @param node
+	 */
+	protected void afterAdd(Node<E> node) {
+		
+	}
+	
+	/**
+	 * 删除节点node之后的调整
+	 * @param node
+	 */
+	protected void afterRemove(Node<E> node) {
+		
 	}
 	
 	public void remove(E element) {
@@ -91,14 +111,20 @@ public class BinarySearchTree<E> extends BinaryTree<E> {
 			} else {
 				node.parent.right = replacement;
 			}
+			
+			afterRemove(node);
 		} else if(node.parent == null) { //node为叶子节点并且是根节点
 			root = null;
+			
+			afterRemove(node);
 		} else { //node为叶子节点并且不是根节点
 			if (node == node.parent.left) {
 				node.parent.left = null;
 			} else {
 				node.parent.right = null;
 			}
+			
+			afterRemove(node);
 		}                                                      
 	}
 	

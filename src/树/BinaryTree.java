@@ -276,6 +276,10 @@ public class BinaryTree<E> {
 		return node.parent;
 	}
 	
+	protected Node<E> createNode(E element, Node<E> parent) {
+		return new Node<>(element, parent);
+	}
+	
 	/**
 	 * 二叉搜索树节点
 	 * @author jinru.lu
@@ -308,6 +312,14 @@ public class BinaryTree<E> {
 		 */
 		public boolean hasTwoChildren() {
 			return left != null && right != null;
+		}
+		
+		public boolean isLeftChild() {
+			return parent != null && this == parent.left;
+		}
+		
+		public boolean isRightChild() {
+			return parent != null && this == parent.right;
 		}
 	}
 }
